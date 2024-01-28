@@ -2,9 +2,20 @@ import React, { useState } from 'react'
 import logo from '../assets/menu.png'
 import close from '../assets/close.png'
 import Start from '../components/Start/Start';
+import Modal from '../components/Modal/Modal';
+import Login from '../components/Login/Login';
+import SignUp from '../components/SignUp/SignUp';
 
 const Home = () => {
     const [open, setOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [loginOrSignUp, setLoginOrSignUp] = useState(0);
+
+
+    const showLoginOrSignUpComponent = (isModalOpen : boolean, showLoginOrSignUp : number) => {
+      setShowModal(isModalOpen);
+      setLoginOrSignUp(showLoginOrSignUp);
+    }
   return (
     <div>
       <nav className="flex items-center justify-between flex-wrap bg-emerald-500 p-6">
@@ -29,15 +40,21 @@ const Home = () => {
               Examples
             </a>
             <a href="/" className="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-neutral-950">
-              About
+              Career
             </a>
           </div>
           <div>
-            <a href="/" className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0">Login</a>
+            <a className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0 mr-1" onClick={() => showLoginOrSignUpComponent(true, 1)}>Login</a>
+          </div>
+          <div>
+            <a className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0" onClick={() => showLoginOrSignUpComponent(true, 2)}>Sign Up</a>
           </div>
         </div>
       </nav>
       <Start isOpen={open}></Start>
+      <Modal isVisible={showModal} onClose={() => setShowModal(false)}>
+        {loginOrSignUp === 1? <Login></Login> : <SignUp></SignUp>}
+      </Modal>
     </div>
   )
 }
